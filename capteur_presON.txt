@@ -1,0 +1,4 @@
+;C
+	same => n,agi(googletts.agi,"Pas d'Activiter",fr)
+;C
+

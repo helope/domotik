@@ -1,0 +1,3 @@
+;A
+	same => n,agi(googletts.agi,"Il ny a pas de lumiaire dans la piaice",fr)
+;A

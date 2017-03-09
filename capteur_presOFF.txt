@@ -1,0 +1,4 @@
+;C
+	same => n,agi(googletts.agi,"Activiter detecter",fr)
+;C
+

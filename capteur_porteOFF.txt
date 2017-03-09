@@ -1,0 +1,4 @@
+;B
+	same => n,agi(googletts.agi,"La porte est ouverte",fr)
+;B
+

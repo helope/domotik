@@ -1,0 +1,6 @@
+*.swo
+*.swp
+*~
+
+capteur.php
+balise.txt
