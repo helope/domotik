@@ -19,7 +19,7 @@ $regexAST = '#root@([0-9]{1,3}.){3}.([0-9]{1,3})#';
 $regexIPX = '#http://([0-9]{1,3}.){3}.([0-9]{1,3})#';
 //regex pour trouver les adresse de l'IPX presentes dans les fichiers
 
-exec('scp '.$ipAST.':/etc/asterisk/extensions.conf extensions1.conf');
+exec('scp '.$ipAST.':/etc/asterisk/extensions.conf /web/extensions1.conf');
 $texte = file_get_contents('/web/extensions1.conf');
 //on recupere le fichier extensions.conf du serveur asterisk et on place son contenu dans une variable
 
@@ -44,7 +44,7 @@ for ($i=2; $i < $line; $i++) {
 //remplace tout les adresses de de l'IPX presentes dans les fichiers
 }
 
-exec('scp extensions1.conf '.$ipAST.':/etc/asterisk/extensions.conf');
+exec('scp /web/extensions1.conf '.$ipAST.':/etc/asterisk/extensions.conf');
 //on pousse le fichier modifie sur le fichier extensions.conf du serveur asterisk
 exec('ssh '.$ipAST.' asterisk -rx reload');
 //reload le serveur asterisk
