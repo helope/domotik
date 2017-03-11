@@ -1,7 +1,7 @@
 <?php
-$ipASTERISK = "10.102.76.37";
+$ipASTERISK = "10.102.76.40";
 //addresse ip srv astersik
-$ipIPX = "10.102.76.34";
+$ipIPX = "10.102.76.37";
 //addresse ip IPX
 
 $ipAST = "root@".$ipASTERISK;
@@ -27,24 +27,26 @@ $texte = file_get_contents('/web/extensions1.conf');
 for ($i=2; $i < $line; $i++) {
 //les deux premiers fichiers de /web sont /. et /.. on ne les prend pas en compte
 //On parcours tout les fichiers du repertoire /web
-	if ($files[$i] != 'addIPX.php'){
-//on ne modifie pas cd fichier
-		$texte = file_get_contents($files[$i]);
-		$modif = preg_replace($regexAST,$ipAST,$texte);
-		file_put_contents($files[$i], $modif);
-//remplace tout les adresses de d'asterisk presentes dans les fichiers
-			
-		$texte = file_get_contents($files[$i]);
-		$modif = preg_replace($regexIPX,$ipIPX,$texte);
-		file_put_contents($files[$i], $modif);
-//remplace tout les adresses de de l'IPX presentes dans les fichiers
-
+	if ($files[$i] == 'addIPX.php' || strstr($files[$i], 'git')) {
+		continue;
 	}
 
+//on ne modifie pas cd fichier
+	$texte = file_get_contents($files[$i]);
+	$modif = preg_replace($regexAST,$ipAST,$texte);
+	file_put_contents($files[$i], $modif);
+//remplace tout les adresses de d'asterisk presentes dans les fichiers
+	
+	$texte = file_get_contents($files[$i]);
+	$modif = preg_replace($regexIPX,$ipIPX,$texte);
+	file_put_contents($files[$i], $modif);
+
+//remplace tout les adresses de de l'IPX presentes dans les fichiers
 }
+
 exec('scp extensions1.conf '.$ipAST.':/etc/asterisk/extensions.conf');
 //on pousse le fichier modifie sur le fichier extensions.conf du serveur asterisk
-exec('ssh root@10.102.76.37 asterisk -rx reload');
+exec('ssh '.$ipAST.' asterisk -rx reload');
 //reload le serveur asterisk
 unlink('/web/extensions1.conf');
 //suppression du fichier de conf local
