@@ -1,14 +1,15 @@
 <?php
-$ipASTERISK = "10.102.76.40";
+$ipASTERISK = "10.102.71.52";
 //addresse ip srv astersik
-$ipIPX = "10.102.76.37";
+$ipIPX = "10.102.71.49";
 //addresse ip IPX
+$ipWEB ="10.102.71.53";
 
 $ipAST = "root@".$ipASTERISK;
 //l'addresse ip asterisk n'est utilisee que pour des connexions ssh
-$ipIPX = "http://".$ipIPX;
+$ipIPX = $ipIPX."/api";
 //l'addresse ip IPX n'est utilisee que pour des requetes http
-
+$ipWEB = $ipWEB.":1880";
 
 exec('scp '.$ipAST.':/etc/asterisk/extensions.conf /web/extensions1.conf');
 $texte = file_get_contents('/web/extensions1.conf');
@@ -21,7 +22,9 @@ $line = count($files);
 //on compte le nombre de fichier dans /web
 $regexAST = '#root@([0-9]{1,3}.){3}.([0-9]{1,3})#';
 //regex pour trouver les adresses ip d'asterisk presentes dans les fichiers
-$regexIPX = '#http://([0-9]{1,3}.){3}.([0-9]{1,3})#';
+$regexIPX = '#([0-9]{1,3}.){3}.([0-9]{1,3})/api#';
+//regex pour trouver les adresse de l'IPX presentes dans les fichiers
+$regexWEB = '#([0-9]{1,3}.){3}.([0-9]{1,3}):1880#';
 //regex pour trouver les adresse de l'IPX presentes dans les fichiers
 
 
@@ -36,12 +39,18 @@ for ($i=2; $i < $line; $i++) {
 	$texte = file_get_contents($files[$i]);
 	$modif = preg_replace($regexAST,$ipAST,$texte);
 	file_put_contents($files[$i], $modif);
-//remplace tout les adresses de d'asterisk presentes dans les fichiers
+//remplace tout les adresses d'asterisk presentes dans les fichiers
 	
 	$texte = file_get_contents($files[$i]);
 	$modif = preg_replace($regexIPX,$ipIPX,$texte);
 	file_put_contents($files[$i], $modif);
-//remplace tout les adresses de de l'IPX presentes dans les fichiers
+//remplace tout les adresses de l'IPX presentes dans les fichiers
+	$texte = file_get_contents($files[$i]);
+    $modif = preg_replace($regexWEB,$ipWEB,$texte);
+    file_put_contents($files[$i], $modif);
+//remplace tout les adresses du serveur Web presentes dans les fichiers
+//
+
 }
 
 exec('scp /web/extensions1.conf '.$ipAST.':/etc/asterisk/extensions.conf');
