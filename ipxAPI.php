@@ -1,5 +1,5 @@
 <?php
-$json = "http://10.102.71.49/api/xdevices.json?";
+$json = "http://10.102.76.42/api/xdevices.json?";
 $jsonRelai = $json."Get=R";
 $jsonDigi = $json."Get=D";
 $jsonAnalog = $json."Get=A";
@@ -11,7 +11,7 @@ $content_analog = json_decode(file_get_contents($jsonAnalog, true));
 //recuperation du json, on parse celui-ci et on stocke dans des variables
 
 
-exec('scp root@10.102.71.52:/etc/asterisk/extensions.conf /web/extensions.conf');
+exec('scp root@10.102.76.24:/etc/asterisk/extensions.conf /web/extensions.conf');
 $texte = file_get_contents('/web/extensions.conf');
 //on recupere le fichier extensions.conf du serveur asterisk
 
@@ -53,9 +53,9 @@ if($content_digi->D2 == 1){
 
 file_put_contents('extensions.conf', $modif);
 //contenu modifie pousser dans extensions.conf sur le serveur web
-exec('scp /web/extensions.conf root@10.102.71.52:/etc/asterisk/extensions.conf');
+exec('scp /web/extensions.conf root@10.102.76.24:/etc/asterisk/extensions.conf');
 //extensions.conf modifié poussé sur le serveur asterisk
-exec('ssh root@10.102.71.52 asterisk -rx reload');
+exec('ssh root@10.102.76.24 asterisk -rx reload');
 //reload du serveur asterisk pour la prise en compte des modifications
 unlink('/web/extensions.conf');
 //suppression du fichier extensions.conf sur le serveur web

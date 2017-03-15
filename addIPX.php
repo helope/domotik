@@ -1,9 +1,9 @@
 <?php
-$ipASTERISK = "10.102.71.52";
+$ipASTERISK = "10.102.76.24";
 //addresse ip srv astersik
-$ipIPX = "10.102.71.49";
+$ipIPX = "10.102.76.42";
 //addresse ip IPX
-$ipWEB ="10.102.71.53";
+$ipWEB ="10.102.76.49.";
 
 $ipAST = "root@".$ipASTERISK;
 //l'addresse ip asterisk n'est utilisee que pour des connexions ssh
